@@ -1,0 +1,9 @@
+**/.git
+**/.next
+**/dist
+**/node_modules
+**/.venv
+**/__pycache__
+**/*.pyc
+**/.env*
+**/README.md

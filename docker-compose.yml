@@ -1,0 +1,50 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      target: dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/web:/app/apps/web
+      - web_node_modules:/app/apps/web/node_modules
+      - web_next:/app/apps/web/.next
+    environment:
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+      target: dev
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./apps/api/src:/app/apps/api/src
+      - api_node_modules:/app/apps/api/node_modules
+      - api_dist:/app/apps/api/dist
+    environment:
+      - NODE_ENV=development
+
+  services:
+    build:
+      context: ./apps/services
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./apps/services:/app
+      - services_venv:/app/.venv
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+
+volumes:
+  web_node_modules:
+  web_next:
+  api_node_modules:
+  api_dist:
+  services_venv:
